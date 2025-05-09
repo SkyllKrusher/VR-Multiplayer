@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class QuizUI : MonoBehaviour
@@ -16,16 +18,21 @@ public class QuizUI : MonoBehaviour
     [SerializeField]
     private GameObject quizPanel;
     [SerializeField]
+    private GameObject reviewPanel;
+    [SerializeField]
+    private TMP_Text scoreText;
+    [SerializeField]
     private Button nextButton;
     [SerializeField]
     private Button startButton;
     [SerializeField]
     private Canvas vrCanvas;
+    [SerializeField]
+    private ToggleGroup optionsToggleGroup;
 
     private int numberOfOptions = 4;
     private int currentQuestionNumber;
     private int[] answers;
-
     private int questionsCount => questionDatas.Count;
 
     private void Start()
@@ -47,6 +54,7 @@ public class QuizUI : MonoBehaviour
     {
         startGamePanel.SetActive(false);
         quizPanel.SetActive(true);
+        SetQuestion(questionDatas[0]);
     }
     private void SetQuestion(QuestionScriptableObject questionData)
     {
@@ -59,12 +67,17 @@ public class QuizUI : MonoBehaviour
     private void OnNext()
     {
         // store current answer
-        answers[currentQuestionNumber] =
+        IEnumerator toggleEnum = optionsToggleGroup.ActiveToggles().GetEnumerator();
+        toggleEnum.MoveNext();
+        Toggle activeToggle = (Toggle)toggleEnum.Current;
+        int selectedAns = activeToggle.name[7] - 48;
+        // Debug.Log(activeToggle.name + selectedAns, activeToggle.gameObject);
 
+        answers[currentQuestionNumber] = selectedAns;
 
         // check and submit if last
         currentQuestionNumber += 1;
-        if (currentQuestionNumber > questionsCount)
+        if (currentQuestionNumber >= questionsCount)
         {
             SubmitQuiz();
             return;
@@ -86,8 +99,10 @@ public class QuizUI : MonoBehaviour
         }
 
         // show results
-        Debug.Log("Score");
-
+        // Debug.Log("Score");
+        scoreText.text = "Score = " + score + " / " + questionsCount;
+        quizPanel.SetActive(false);
+        reviewPanel.SetActive(true);
         // review
     }
 }
