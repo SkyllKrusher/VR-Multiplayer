@@ -1631,6 +1631,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1166731676434272976, guid: e0cfd7007a956f746bb3100186e2121e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2493867917877638089, guid: e0cfd7007a956f746bb3100186e2121e, type: 3}
       propertyPath: optionTexts.Array.size
       value: 4
