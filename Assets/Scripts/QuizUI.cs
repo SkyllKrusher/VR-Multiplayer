@@ -20,6 +20,8 @@ public class QuizUI : MonoBehaviour
     private Button nextButton;
     [SerializeField]
     private Button startButton;
+    [SerializeField]
+    private Canvas vrCanvas;
 
     private int numberOfOptions = 4;
     private int currentQuestionNumber;
@@ -38,7 +40,10 @@ public class QuizUI : MonoBehaviour
         startButton.onClick.AddListener(() => StartQuiz());
     }
 
-
+    public void ActivateCanvas()
+    {
+        vrCanvas.enabled = true;
+    }
     private void StartQuiz()
     {
         startGamePanel.SetActive(false);
