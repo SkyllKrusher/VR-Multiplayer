@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
@@ -34,23 +35,38 @@ public class QuizUI : MonoBehaviour
     private int currentQuestionNumber;
     private int[] answers;
     private int questionsCount => questionDatas.Count;
+    private PhotonView photonView;
+    private string scoreString;
 
     private void Start()
     {
+        photonView = GetComponent<PhotonView>();
         Cursor.visible = false;
         answers = new int[questionsCount];
         currentQuestionNumber = 0;
     }
     private void Awake()
     {
-        nextButton.onClick.AddListener(() => OnNext());
-        startButton.onClick.AddListener(() => StartQuiz());
+        nextButton.onClick.AddListener(() => NextRPC());
+        startButton.onClick.AddListener(() => QuizRPC());
     }
 
     public void ActivateCanvas()
     {
         vrCanvas.enabled = true;
     }
+
+    private void QuizRPC()
+    {
+        photonView.RPC(nameof(StartQuiz), RpcTarget.All);
+    }
+
+    private void NextRPC()
+    {
+        photonView.RPC(nameof(OnNext), RpcTarget.All);
+    }
+
+    [PunRPC]
     private void StartQuiz()
     {
         startGamePanel.SetActive(false);
@@ -65,6 +81,8 @@ public class QuizUI : MonoBehaviour
             optionTexts[i].text = questionData.options[i];
         }
     }
+
+    [PunRPC]
     private void OnNext()
     {
         // store current answer
@@ -80,13 +98,15 @@ public class QuizUI : MonoBehaviour
         currentQuestionNumber += 1;
         if (currentQuestionNumber >= questionsCount)
         {
-            SubmitQuiz();
+            photonView.RPC(nameof(SubmitQuiz), RpcTarget.All);
             return;
         }
 
         //Update next question if not last
         SetQuestion(questionDatas[currentQuestionNumber]);
     }
+
+    [PunRPC]
     private void SubmitQuiz()
     {
         // evaluate
@@ -101,9 +121,16 @@ public class QuizUI : MonoBehaviour
 
         // show results
         // Debug.Log("Score");
-        scoreText.text = "Score = " + score + " / " + questionsCount;
+        scoreString = "Score = " + score + " / " + questionsCount;
+        photonView.RPC(nameof(UpdateScoreText), RpcTarget.All);
         quizPanel.SetActive(false);
         reviewPanel.SetActive(true);
         // review
+    }
+
+    [PunRPC]
+    public void UpdateScoreText()
+    {
+        scoreText.text = scoreString;
     }
 }
