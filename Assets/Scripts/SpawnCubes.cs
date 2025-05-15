@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Unity.Mathematics;
 using UnityEngine;
 
-public class SpawnCubes : MonoBehaviour
+public class SpawnCubes : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    private Transform cubePrefab;
     [SerializeField]
     private Transform cubeParentTf;
     [SerializeField]
@@ -14,7 +14,9 @@ public class SpawnCubes : MonoBehaviour
     [SerializeField]
     private int cubesPerBatch;
 
-    private void Start()
+    private string interactableCubePrefabName = "Grab Interactable";
+
+    public override void OnCreatedRoom()
     {
         SpawnNextBatch();
     }
@@ -42,7 +44,9 @@ public class SpawnCubes : MonoBehaviour
 
     private void SpawnCube()
     {
-        Transform cubeTf = Instantiate(cubePrefab, cubeParentTf);
+        return;
+        Transform cubeTf = PhotonNetwork.Instantiate(interactableCubePrefabName, cubeParentTf.position, quaternion.identity).transform;
+        cubeTf.parent = cubeParentTf;
         cubeTf.localPosition = Vector3.zero;
     }
 }

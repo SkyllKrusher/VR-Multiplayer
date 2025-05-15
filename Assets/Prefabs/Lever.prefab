@@ -232,6 +232,8 @@ GameObject:
   - component: {fileID: 872759844361748247}
   - component: {fileID: 3750475131167953689}
   - component: {fileID: 7990097866572144696}
+  - component: {fileID: 7245671517564572643}
+  - component: {fileID: 969120545061023829}
   m_Layer: 6
   m_Name: Handle
   m_TagString: Untagged
@@ -536,6 +538,51 @@ MonoBehaviour:
   indicatorRenderer: {fileID: 3196151149488574401}
   onColor: {r: 0.34217867, g: 0.96981126, b: 0.6816256, a: 1}
   offColor: {r: 1, g: 0.18679237, b: 0.28822967, a: 1}
+  onLeverOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onLeverOff:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7245671517564572643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2621377566645984603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 1
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &969120545061023829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2621377566645984603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 7245671517564572643}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2708228948354243779
 GameObject:
   m_ObjectHideFlags: 0
