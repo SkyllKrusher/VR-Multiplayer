@@ -37,6 +37,7 @@ public class QuizUI : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = false;
         answers = new int[questionsCount];
         currentQuestionNumber = 0;
     }
